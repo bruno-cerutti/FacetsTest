@@ -40,8 +40,10 @@ namespace FacetsTest
             foreach (var facetResult in facets)
             {
                 Console.WriteLine("FacetResult {0} -> FacetValues: {1}", facetResult.Key,
-                    string.Join(',', facetResult.Value.Values.Select(v => $"{v.Range} ({v.Count})")));
+                    string.Join(", ", facetResult.Value.Values.Select(v => $"{v.Range} ({v.Count})")));
             }
+
+            Console.WriteLine();
         }
     }
 }
