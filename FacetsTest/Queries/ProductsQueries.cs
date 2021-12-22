@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using FacetsTest.Indexes;
 using FacetsTest.Models;
 using Raven.Client.Documents.Queries;
 using Raven.Client.Documents.Queries.Facets;
@@ -10,11 +8,11 @@ namespace FacetsTest.Queries
 {
     public class ProductsQueries
     {
-        public async Task<IList<Product>> GetProducts(bool? available, IDictionary<string, IList<string>> filters)
+        public async Task<IList<Product>> GetProducts(string indexName, bool? available, IDictionary<string, IList<string>> filters)
         {
             using (var session = DocumentStoreHolder.Store.OpenAsyncSession())
             {
-                var query = session.Advanced.AsyncDocumentQuery<Product, Products_Options>().UsingDefaultOperator(QueryOperator.And).Statistics(out var stats);
+                var query = session.Advanced.AsyncDocumentQuery<Product>(indexName).UsingDefaultOperator(QueryOperator.And).Statistics(out var stats);
                 if (available.HasValue)
                     query.WhereLucene("Option_Available", available.ToString());
 
@@ -27,11 +25,11 @@ namespace FacetsTest.Queries
             }
         }
 
-        public async Task<IDictionary<string, FacetResult>> GetProductsFacets(bool? available, IDictionary<string, IList<string>> filters)
+        public async Task<IDictionary<string, FacetResult>> GetProductsFacets(string indexName, bool? available, IDictionary<string, IList<string>> filters)
         {
             using (var session = DocumentStoreHolder.Store.OpenAsyncSession())
             {
-                var query = session.Advanced.AsyncDocumentQuery<Product, Products_Options>().UsingDefaultOperator(QueryOperator.And).Statistics(out var stats);
+                var query = session.Advanced.AsyncDocumentQuery<Product>(indexName).UsingDefaultOperator(QueryOperator.And).Statistics(out var stats);
                 if (available.HasValue)
                     query.WhereLucene("Option_Available", available.ToString());
 
@@ -76,6 +74,7 @@ namespace FacetsTest.Queries
         {
             var product1 = new Product
             {
+                Id = "Products/Nike-shoes-abc",
                 Title = "Nike shoes abc",
                 Brand = "Nike",
                 Options = new List<ProductOption>
@@ -151,6 +150,7 @@ namespace FacetsTest.Queries
 
             var product2 = new Product
             {
+                Id = "Products/Adidas-shoes-def",
                 Title = "Adidas shoes def",
                 Brand = "Adidas",
                 Options = new List<ProductOption>
