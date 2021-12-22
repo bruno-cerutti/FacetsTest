@@ -26,9 +26,9 @@ namespace FacetsTest.TestCases
 
             Assert.AreEqual(2, brandFacetValues.Count);
             Assert.AreEqual("adidas", brandFacetValues[0].Range);
-            Assert.AreEqual(2, brandFacetValues[0].Count, "Expected two unavailable products of brand Adidas");
+            Assert.AreEqual(2, brandFacetValues[0].Count, "Expected 2 unavailable products of brand Adidas");
             Assert.AreEqual("nike", brandFacetValues[1].Range);
-            Assert.AreEqual(4, brandFacetValues[1].Count, "Expected only one product with brand Nike");
+            Assert.AreEqual(4, brandFacetValues[1].Count, "Expected 4 products with brand Nike");
         }
         
         [Test(Description = "Only one product has at least an option available with Size 9, so I expect to have as result a single brand (Adidas) with count 1")]
